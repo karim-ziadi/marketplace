@@ -8,6 +8,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::middleware(['guest:admin', 'PreventBackHistory'])->group(function () {
         // Route::view('/login',[AdminController::class,'adminLogin'])
+        // Route::get('/test', [AdminController::class, 'testNotify']);
         Route::view('/login', 'back.pages.admin.auth.login')->name('login');
 
         Route::post('/login_handler', [AdminController::class, 'loginHandler'])->name('login_handler');

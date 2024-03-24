@@ -52,9 +52,12 @@ class AdminController extends Controller
             'password' => $request->password
         );
         if (Auth::guard('admin')->attempt($creds)) {
+            notify()->success('Welcome to our platform');
             return redirect()->route('admin.home');
         } else {
-            session()->flash('fail', 'Incorrect credentials');
+            notify()->error('Incorrect credentials');
+
+            // session()->flash('fail', 'Incorrect credentials');
             return redirect()->route('admin.login');
         }
     }
@@ -64,7 +67,8 @@ class AdminController extends Controller
     {
         // die('ee');
         Auth::guard('admin')->logout();
-        session()->flash('fail', 'You are logged out!');
+        // session()->flash('fail', 'You are logged out!');
+        notify()->info('You are logged out!');
         return redirect()->route('admin.login');
     }
 
@@ -73,11 +77,10 @@ class AdminController extends Controller
     {
         try {
             // phpinfo();
+            // dd($request->all());
             $request->validate(
                 [
                     'email' => 'required|email|exists:admins,email',
-
-
                 ],
                 [
                     'email.required' => 'Email  is required',
@@ -90,6 +93,7 @@ class AdminController extends Controller
 
             //GET ADMIN DETAILS
             $admin = Admin::where('email', $request->email)->first();
+
             // GENERATE TOKEN
             $token = base64_encode(Str::random(64));
 
@@ -133,16 +137,20 @@ class AdminController extends Controller
 
             if (sendEmail($mail_config)) {
 
-                session()->flash('success', 'We have e-mailed your password reset link.');
-                return redirect()->route('admin.forget-password');
+                // session()->flash('success', 'We have e-mailed your password reset link.');
+                notify()->success('We have e-mailed your password reset link.');
+                // return redirect()->route('admin.forget-password');
+                return view('back.pages.admin.auth.forget-password');
             } else {
-
-                session()->flash('fail', 'Something went wrong!');
+                notify()->error('Something went wrong!');
+                // session()->flash('fail', 'Something went wrong!');
 
                 return redirect()->route('admin.forget-password');
             }
         } catch (\Exception $e) {
-            session()->flash('fail', $e->getMessage());
+            // session()->flash('fail', $e->getMessage());
+            notify()->error('Something went wrong!');
+
             return redirect()->route('admin.forget-password');
             // $e->getMessage();
         }

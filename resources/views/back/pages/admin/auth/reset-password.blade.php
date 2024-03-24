@@ -1,6 +1,7 @@
 @extends('back.layout.auth-layout')
 @section('pageTitle', isset($pageTilte) ? $pageTilte : 'Admin Forget Password')
 @section('content')
+
     <div class="row align-items-center">
         <div class="col-md-6">
             <img src="{{ asset('back/vendors/images/forgot-password.png') }}" alt="">

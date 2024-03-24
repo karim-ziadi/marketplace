@@ -5,6 +5,7 @@
     <!-- Basic Page Info -->
     <meta charset="utf-8" />
     <title>@yield('pageTitle')</title>
+    @notifyCss
 
     <!-- Site favicon -->
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('back/vendors/images/apple-touch-icon.png') }}" />
@@ -28,7 +29,10 @@
 </head>
 
 <body class="login-page">
+
     <div class="login-header box-shadow">
+        <x-notify::notify />
+
         <div class="container-fluid d-flex justify-content-between align-items-center">
             <div class="brand-logo">
                 <a href="asset()login.html">
@@ -58,7 +62,7 @@
 
     <!-- End Google Tag Manager (noscript) -->
     @stack('scripts')
-
+    @notifyJs
 </body>
 
 </html>
